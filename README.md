@@ -25,11 +25,34 @@ To write and execute an Assembly Language Program for sorting data in Ascending 
 ```asm
 
 
+ORG 0000H
+MOV R4,#04H        ; Number of passes (N-1)
+OUTER: MOV R3,#04H ; Inner loop counter
+MOV R0,#50H        ; Array starting address
+INNER: MOV A,@R0
+MOV B,A
+INC R0
+CLR C
+SUBB A,@R0         ; Compare adjacent elements
+JC NO_SWAP         ; If A < @R0 (Carry), no swap
+; Exchange elements
+MOV A,@R0
+XCH A,B
+MOV @R0,A
+DEC R0
+MOV A,B
+XCH A,B
+MOV @R0,A
+INC R0
+NO_SWAP: DJNZ R3,INNER
+DJNZ R4,OUTER
+END
 
 
 ```
 ## OUTPUT(Ascending order)
 
+<img width="1600" height="694" alt="image" src="https://github.com/user-attachments/assets/65442ea1-4b26-4497-95c8-eb20517ca71f" />
 
 
 ---
@@ -52,10 +75,34 @@ To write and execute an Assembly Language Program for sorting data in Ascending 
 
 
 
+ORG 0000H
+MOV R1,30H     ; Outer loop count = N
+DEC R1
+
+LOOP1: MOV R0,#40H
+       MOV R6,30H
+       DEC R6
+
+LOOP:  MOV A,@R0
+       INC R0
+       MOV B,@R0
+       CJNE A,B,NEXT
+NEXT:  JNC DOWN
+
+       MOV @R0,A
+       DEC R0
+       MOV @R0,B
+       INC R0
+
+DOWN:  DJNZ R6,LOOP
+       DJNZ R1,LOOP1   ; Outer loop ends correctly
+
+END
 
 ```
 ## OUTPUT(Descending order)
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3528a882-3cd8-4fc0-8e15-4dacc8920ede" />
 
 
 ---
